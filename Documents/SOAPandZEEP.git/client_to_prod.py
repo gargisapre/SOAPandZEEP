@@ -32,4 +32,4 @@ test_Patriot =  patriotOrder(deliveryMethod='email', deliveryInfo='JZhang@signat
 	                         reference='P_PYTHON', vendorId=i, name=nameList )
 print(client.service.submitPatriot(test_Patriot))
 
-client.service.logout() """
+client.service.logout()"""

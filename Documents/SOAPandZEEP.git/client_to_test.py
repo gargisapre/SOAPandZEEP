@@ -7,10 +7,11 @@ login_info = client.get_type('ns0:loginInfo')
 log_in = login_info(firmId=2, loginId='test', password='isdn1')
 
 CSName = client.get_type('ns0:childSupportName')
-test_name = CSName(searchExactName=False, firstName="ABRAHAM", lastName="DOE", fromDate='09/01/1992', toDate='08/01/2016')
-test_name2 = CSName(searchExactName=False, firstName="KAREN", lastName="KANE", fromDate='09/01/1992', toDate='08/01/2016')
+test_name  = CSName(searchExactName=False, firstName="LOREEN", lastName="DOE", fromDate='09/01/1992', toDate='08/01/2016')
+test_name2 = CSName(searchExactName=False, firstName="KAREN", lastName="CANE", fromDate='09/01/1992', toDate='08/01/2016')
+test_name3 = CSName(searchExactName=False, firstName="JANE", lastName="BROWN", fromDate='09/01/1992', toDate='08/01/2016')
 
-nameList = [test_name, test_name2]
+nameList = [test_name3]
 
 childSupportOrder = client.get_type('ns0:childSupportOrder')
 
