@@ -14,11 +14,8 @@ test_name3 = CSName(searchExactName=False, firstName="JANE", lastName="BROWN", f
 nameList = [test_name2]
 
 childSupportOrder = client.get_type('ns0:childSupportOrder')
-
 patriotOrder = client.get_type('ns0:patriotOrder')
-
-stateWideLienOrder = client.get_type('ns0:stateWideLienOrder')
-test_sWLO = stateWideLienOrder(deliveryMethod='Web', reference='JEREMY', vendorId=99)
+lienOrder = client.get_type('ns0:stateWideLienOrder')
 
 print(client.service.login(log_in))
 #client.service.logout()
@@ -26,11 +23,16 @@ print(client.service.getStateWideLienEffectiveDate())
 
 i = 99
 test_CSO = childSupportOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com', 
-	                         reference='D_PYTHON', vendorId=i, name=nameList )
+	                         reference='D_PYTHON_CSO', vendorId=i, name=nameList )
 print(client.service.submitChildSupport(test_CSO))
 
 test_Patriot =  patriotOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com', 
-	                         reference='D_PYTHON', vendorId=i, name=nameList )
+	                         reference='D_PYTHON_PT',  vendorId=i, name=nameList )
 print(client.service.submitPatriot(test_Patriot))
+
+test_SWLO =        lienOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com', 
+	                         reference='D_PYTHON_LO',  vendorId=i, name=nameList )
+
+print(client.service.submitStateWideLien(test_SWLO))
 
 client.service.logout()
