@@ -1,6 +1,6 @@
 import zeep
 
-wsdl = 'http://alalnsis008.risk.regn.net:8080/ws/signon?wsdl'
+wsdl = 'http://sis-jas-test.risk.regn.net:8080/ws/signon?wsdl'
 client = zeep.Client(wsdl=wsdl)
 
 login_info = client.get_type('ns0:loginInfo')
@@ -25,11 +25,11 @@ print(client.service.getStateWideLienEffectiveDate())
 
 i = 99
 test_CSO = childSupportOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com', 
-	                         reference='A_PYTHON', vendorId=i, name=nameList )
+	                         reference='T_PYTHON', vendorId=i, name=nameList )
 print(client.service.submitChildSupport(test_CSO))
 
 test_Patriot =  patriotOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com', 
-	                         reference='A_PYTHON', vendorId=i, name=nameList )
+	                         reference='T_PYTHON', vendorId=i, name=nameList )
 print(client.service.submitPatriot(test_Patriot))
 
 client.service.logout()

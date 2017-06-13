@@ -1,6 +1,6 @@
-import zeep
+"""import zeep
 
-wsdl = 'http://alalnsis008.risk.regn.net:8080/ws/signon?wsdl'
+wsdl = 'http://sis-jas-prod.risk.regn.net:8080/ws/signon?wsdl'
 client = zeep.Client(wsdl=wsdl)
 
 login_info = client.get_type('ns0:loginInfo')
@@ -10,7 +10,7 @@ CSName = client.get_type('ns0:childSupportName')
 test_name = CSName(searchExactName=False, firstName="ABRAHAM", lastName="DOE", fromDate='09/01/1992', toDate='08/01/2016')
 test_name2 = CSName(searchExactName=False, firstName="KAREN", lastName="KANE", fromDate='09/01/1992', toDate='08/01/2016')
 
-nameList = [test_name, test_name2]
+nameList = [test_name2]
 
 childSupportOrder = client.get_type('ns0:childSupportOrder')
 
@@ -25,11 +25,11 @@ print(client.service.getStateWideLienEffectiveDate())
 
 i = 99
 test_CSO = childSupportOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com', 
-	                         reference='A_PYTHON', vendorId=i, name=nameList )
+	                         reference='P_PYTHON', vendorId=i, name=nameList )
 print(client.service.submitChildSupport(test_CSO))
 
 test_Patriot =  patriotOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com', 
-	                         reference='A_PYTHON', vendorId=i, name=nameList )
+	                         reference='P_PYTHON', vendorId=i, name=nameList )
 print(client.service.submitPatriot(test_Patriot))
 
-client.service.logout()
+client.service.logout() """
