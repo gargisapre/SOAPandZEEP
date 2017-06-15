@@ -13,13 +13,22 @@ client = zeep.Client(wsdl=wsdl)
 login_info = client.get_type('ns0:loginInfo')
 log_in = login_info(firmId=2, loginId='test', password='isdn1')
 
+
 CSName = client.get_type('ns0:childSupportName')
 test_name  = CSName(searchExactName=False, firstName="LOREEN", lastName="DOE", fromDate='09/01/1992', toDate='08/01/2016')
 test_name2 = CSName(searchExactName=False, firstName="KAREN", lastName="CANE", fromDate='09/01/1992', toDate='08/01/2016')
 test_name3 = CSName(searchExactName=False, firstName="JANE", lastName="BRAUN", fromDate='09/01/1992', toDate='08/01/2016')
-
 names = [test_name, test_name2, test_name3]
 nameList = [names[select]]
+
+ownerBuyer = client.get_type('ns0:countyOwnerBuyer')
+test_owner = ownerBuyer(firstName='MARIE', lastNameCorpName='EM', isIndividual=True, isOwner=True)
+test_buyer = ownerBuyer(firstName='NANCY', lastNameCorpName='F', isIndividual=True, isOwner=True)
+
+backTitle = client.get_type('ns0:countyBackTitle')
+test_backTitle = backTitle(backTitleTypeId=1, bookNumber=1234, pageNumber=1)
+
+
 
 childSupportOrder = client.get_type('ns0:childSupportOrder')
 patriotOrder = client.get_type('ns0:patriotOrder')
@@ -32,9 +41,12 @@ statusOrder  = client.get_type('ns0:corporateStatusOrder')
 certUCCOrder = client.get_type('ns0:stateCertifiedUccOrder')
 UCCOrder  = client.get_type('ns0:uccOrder')
 franchiseOrder    = client.get_type('ns0:franchiseTaxOrder')
+njTaxOrder= client.get_type('ns0:njTaxOrder')
+paTaxOrder= client.get_type('ns0:paTaxOrder')
+countyOrder=client.get_type('ns0:countyOrder')
 
 client.service.login(log_in)
-#client.service.logout()    #test statefulness by logging in prematurely
+#client.service.logout()    #test statefulness by logging out prematurely
 
 ref = ['A_PYTHON', 'D_PYTHON', 'T_PYTHON'] #references refer to the endpoint used
 
@@ -84,6 +96,22 @@ test_franchise=franchiseOrder(deliveryMethod='email', deliveryInfo='JZhang@signa
 	                          businessName='ABC Inc', entityType='LCC', hasPackagePricing=False,
 	                          transactionType='OTHER')
 
+test_NJTax       = njTaxOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com',
+  	                          reference=ref[select]+'_NJTax', vendorId=i, county='ATLANTIC',
+ 	                          address='1835 EMERSON AVE', municipality='ATLANTIC', municipalityType='CITY', state='NJ',
+ 	                          certificateStyle='C', dateNeeded='6/30/2017', hasRedemption="False", productId =51)
+
+test_PATax       = paTaxOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com',
+  	                          reference=ref[select]+'_PATax', vendorId=i, county='BUCKS',
+ 	                          address='123 MAIN STREET', municipality='NORTHAMPTON', municipalityType='TOWN',
+ 	                          productId =68, transferTypeId=4, parcelNumber="12345-123-123456")
+
+test_county     = countyOrder(deliveryMethod='email', deliveryInfo='JZhang@signatureinfo.com',
+  	                          reference=ref[select]+'_County', vendorId=i, county='ATLANTIC',
+ 	                          address='1835 EMERSON AVE', municipality='ATLANTIC', municipalityType='CITY', state='NJ',
+ 	                          copyPreferenceId=4, productId =2)
+
+
 
 #print('testing getStateWideLienEffectiveDate')
 #print(client.service.getStateWideLienEffectiveDate())
@@ -118,11 +146,20 @@ test_franchise=franchiseOrder(deliveryMethod='email', deliveryInfo='JZhang@signa
 #print('testing submitUcc')
 #print(client.service.submitUcc(test_UCC))
 
-print('testingsubmitFranchiseTaxOrder')
-print(client.service.submitFranchiseTax(test_franchise))
+#print('testing submitFranchiseTaxOrder')
+#print(client.service.submitFranchiseTax(test_franchise))
 
 #print('testing submitCorporateStatus')
 #print(client.service.submitCorporateStatus(test_status))
+
+#print('testing submitNJTax')
+#print(client.service.submitNjTax(test_NJTax))
+
+#print('testing submitPATax')
+#print(client.service.submitPaTax(test_PATax))
+
+#print('testing submitCounty')
+#print(client.service.submitCounty(test_county))
 
 #print('testing getInvoiceInformation')
 #print(client.service.getInvoiceInformation(['TD-166-1003', 'CJ-165-1012']))
@@ -132,7 +169,8 @@ client.service.logout()
 #NOTES
 #because right now CSNames are interchangable for both PatriotNames and SWLNames
  #thus test_CSO is interchangable for both test_Patriot and test_SWLO
-#submitWetland needs the parameter hasGrantPackagePricing DESPITE NOT SHOWN IN DOCUMENTATION!
+#either stateWideLienName or submitStateWideLien does not need hasPatriot. TEST LATER
+#submitWetland NEEDS hasGrantPackagePricing, contrary to documentation 
 #mapRequestId=2 for instant feedback, otherwise needs processing
 #clientFirmNumber is in the wrong place of the documentation for SWLO
 #all parameters in documentation have first char capitalized when it should be lower case
@@ -141,3 +179,10 @@ client.service.logout()
 #"submitCGS()" incorrect in documentation
 #submitUCC NEEDS forTHisAddressOnly, contrary to documentation
 #documentation for submitFranchiseTax has "submitFranchiseTaxOrder" on bottom which is outdated
+#submitNjTax NEEDS hasRedemption, contrary to documentation
+#documentation for submitNJTaxContinuation has PA instead of NJ
+#PATax requires 2 of the 3: Address, Parcel, Ownder (despite documentation suggesting otherwise)
+#PATax returns an xml that seems to look weird
+#why does NJTax need state but PATax does not?
+#countyBackTitle takes backTitleTypeId as parameter, NOT backTitleDetailTypeID contrary to documentation
+#submitCounty HAS NO PARAMETER orderedDate, contrary to documentation
