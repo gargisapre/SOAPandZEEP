@@ -3,13 +3,12 @@ import zeep
 """
 Here we set up the client and the wsdl file
 """
-wsdl = 'http://sis-jas-test.risk.regn.net:8080/ws/signon?wsdl'
 client = zeep.Client(wsdl=wsdl)
 """
 this block gives youi the information to login 
 """
 login_info = client.get_type('ns0:loginInfo')
-log_in = login_info(firmId=2, loginId='test', password='isdn1')
+log_in = login_info(firmId=, loginId='', password='')
 
 """
 Here you have the information for a test childsupport search
